@@ -1,4 +1,4 @@
-# Modgo DB
+# Mongo DB
 Szczecin Java User Group Presentation
 
 ## Agenda
