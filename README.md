@@ -34,10 +34,10 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 * Basic setup is done.
 
 ## How to use
-### Create database - ''test''
+### Create database - *test*
         mongo test
 
-### Create your first collection (''users'') and put document into it
+### Create your first collection (*users*) and put document into it
         db.users.save( { login: 'stefan', name : 'Stefan Kowadło' } )
 
 
