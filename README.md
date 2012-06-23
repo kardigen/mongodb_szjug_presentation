@@ -40,6 +40,15 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 ### Create your first collection (*users*) and put document into it
         db.users.save( { login: 'stefan', name : 'Stefan Kowadło' } )
 
+### First query
+        db.users.find()
+
+### Add some more users
+        db.users.save({ login: 'zenon', name : 'Zenon Burak' } )
+        db.users.save({ login: 'zdzich', forename: 'Zdzisław', surname:'Kanapka'})
+        db.users.save({ login: 'joanna', forename: 'Joanna', surname:'Dark', contacts:[{email:'aska@hack.it'},{home:{street:'Bura',streetNo:666}}]})
+
+
 
 
 
