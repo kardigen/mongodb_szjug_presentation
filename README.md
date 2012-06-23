@@ -57,8 +57,22 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
         db.users.find({'contacts.email':{$exists:true}})
         db.users.find({'contacts.home.streetNo':{$exists:true},$where:'return this.contacts[1].home.streetNo % 4 == 0'})
         
-### findAndModify queries
+### Command findAndModify queries
   Useful for creating queues in database - see more [here](http://www.mongodb.org/display/DOCS/findAndModify+Command)
 
+### Stored procedures
+  There is way to execute some code server side - very usefull when existaing database evoluting.
+  Consider that we want to update all users that have *old* name property to new approach with *forename/surname* fields.
+  
+        function fixName() {
+          db.users.find({ name:{$exists:true}}).forEach( function(obj) {
+                      var nameParts = obj.name.split(' ');
+                      obj.forename = nameParts[0];
+                      obj.surname = nameParts[1];
+                      delete obj.name;
+                      db.users.save(obj);
+                     } ); }
+        db.eval(fixName)
+}
 
   
