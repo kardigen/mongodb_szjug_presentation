@@ -46,7 +46,8 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 ### Add some more users
         db.users.save({ login: 'zenon', name : 'Zenon Burak' } )
         db.users.save({ login: 'zdzich', forename: 'Zdzisław', surname:'Kanapka'})
-        db.users.save({ login: 'joanna', forename: 'Joanna', surname:'Dark', contacts:[{email:'aska@hack.it'},{home:{street:'Bura',streetNo:666}}]})
+        db.users.save({ login: 'joanna', forename: 'Joanna', surname:'Dark',
+          contacts:[{email:'aska@hack.it'},{home:{street:'Bura',streetNo:666}}]})
 
 
 
