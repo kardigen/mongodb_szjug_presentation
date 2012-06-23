@@ -48,9 +48,17 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
         db.users.save({ login: 'zdzich', forename: 'Zdzisław', surname:'Kanapka'})
         db.users.save({ login: 'joanna', forename: 'Joanna', surname:'Dark',
           contacts:[{email:'aska@hack.it'},{home:{street:'Bura',streetNo:666}}]})
+        db.users.save({ login: 'kiler', forename: 'Jerzy', surname:'Kiler',
+          contacts:[{mobile:'555222555'},{home:{street:'Kolumbijska',streetNo:12}}]})
 
-
-
+### Advanced queries
+        db.users.find({name:/^Z.*/})
+        db.users.find({$or:[{name:/^Z.*/},{forname:/^Z.*/}]})
+        db.users.find({'contacts.email':{$exists:true}})
+        db.users.find({'contacts.home.streetNo':{$exists:true},$where:'return this.contacts[1].home.streetNo % 4 == 0'})
+        
+### findAndModify queries
+  Useful for creating queues in database - see more [here](http://www.mongodb.org/display/DOCS/findAndModify+Command)
 
 
   
