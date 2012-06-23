@@ -3,7 +3,7 @@ Szczecin Java User Group Presentation
 
 ## Agenda
 * [Introduction](#introduction)
-* How to start
+* [How to start](#how-to-start)
 * How to manage relations
 * How to optimize
 * How to scale
@@ -20,3 +20,13 @@ All issues explained with examples and in 'hands on' way.
 See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 
 ## How to start
+* Mongo db great documentation - [start here](http://www.mongodb.org/display/DOCS/Quickstart)
+* Install mongodb from your favorite package manager - instrucions [here](http://www.mongodb.org/display/DOCS/Quickstart)
+* Start mongo
+
+        mongod -dbpath <db_dir>
+
+* Start mongo CLI
+
+        mongo
+
