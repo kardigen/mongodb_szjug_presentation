@@ -4,6 +4,7 @@ Szczecin Java User Group Presentation
 ## Agenda
 * [Introduction](#introduction)
 * [How to start](#how-to-start)
+* [How to use](#how-to-use)
 * How to manage relations
 * How to optimize
 * How to scale
@@ -20,7 +21,7 @@ All issues explained with examples and in 'hands on' way.
 See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 
 ## How to start
-* Mongo db great documentation - [start here](http://www.mongodb.org/display/DOCS/Quickstart)
+* Mongo db have great documentation - [start here](http://www.mongodb.org/display/DOCS/Quickstart)
 * Install mongodb from your favorite package manager - instrucions [here](http://www.mongodb.org/display/DOCS/Quickstart)
 * Start mongo
 
@@ -30,3 +31,16 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 
         mongo
 
+* Basic setup is done.
+
+## How to use
+### Create database - ''test''
+        mongo test
+
+### Create your first collection (''users'') and put document into it
+        db.users.save( { login: 'stefan', name : 'Stefan Kowadło' } )
+
+
+
+
+  
