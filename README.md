@@ -5,7 +5,7 @@ Szczecin Java User Group Presentation
 * [Introduction](#introduction)
 * [How to start](#how-to-start)
 * [How to use](#how-to-use)
-* How to manage relations
+* [How to manage relations](#how-to-manage-relations)
 * How to optimize
 * How to scale
 * How to monitor
@@ -56,7 +56,9 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
         db.users.find({$or:[{name:/^Z.*/},{forname:/^Z.*/}]})
         db.users.find({'contacts.email':{$exists:true}})
         db.users.find({'contacts.home.streetNo':{$exists:true},$where:'return this.contacts[1].home.streetNo % 4 == 0'})
-        
+
+  For more info see [here](http://www.mongodb.org/display/DOCS/Advanced+Queries)
+
 ### Command findAndModify queries
   Useful for creating queues in database - see more [here](http://www.mongodb.org/display/DOCS/findAndModify+Command)
 
@@ -75,6 +77,28 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
         db.eval(fixName)
         
   For more info see [here](http://www.mongodb.org/display/DOCS/Server-side+Code+Execution).
-}
+  
+## How to manage relations
+### 1 - 1 or 1 - n strong relations
+  This kind of relations should be modeled as embdded documents as we can see in case of *contacts* in users collection.
+  
+### n - n relations
+  In this case we should consider business model needs.
+  Good example of such relation is posts in Newspaper and user's comments. We have to consider two directions of relation:
+  
+  1. Each post have list of comments. Comment has an field *creator* that refers to owner user. In this case we are interested to see who was a creator for each time when we are reading comments.
+  2. We are looking for comments that was created by specific user.
 
+In this case we should check or assume which situation occurs more often. Lets assume that we are more interested that
+the first case is more important. So we can model it like this: See example:
+  
+        db.posts.save({title:'Some very nice article', text: 'Very long long text',
+          comments:[
+            {creatorId:'stefan', comment:'eeee takie tam...'},
+            {creatorId:'zenon',  comment:'Bomba czad bombelki!!!'}]})
+
+In ther other case it would be better to model it like this:
+
+        db.users.update({login:'zdzich'},{ $push: {
+          comments: { postId:'some id'}, comment:'Hahaha - ale ubaw!' }})
   
