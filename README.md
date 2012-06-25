@@ -6,7 +6,7 @@ Szczecin Java User Group Presentation
 * [How to start](#how-to-start)
 * [How to use](#how-to-use)
 * [How to manage relations](#how-to-manage-relations)
-* How to optimize
+* [How to optimize](#how-to-optimize)
 * How to scale
 * How to monitor
 
@@ -44,7 +44,7 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
         db.users.find()
 
 ### Add some more users
-        db.users.save({ login: 'zenon', name : 'Zenon Burak' } )
+        db.users.save({ login: 'zenon', name: 'Zenon Burak' } )
         db.users.save({ login: 'zdzich', forename: 'Zdzisław', surname:'Kanapka'})
         db.users.save({ login: 'joanna', forename: 'Joanna', surname:'Dark',
           contacts:[{email:'aska@hack.it'},{home:{street:'Bura',streetNo:666}}]})
@@ -86,7 +86,8 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
   In this case we should consider business model needs.
   Good example of such relation is posts in Newspaper and user's comments. We have to consider two directions of relation:
   
-  1. Each post have list of comments. Comment has an field *creator* that refers to owner user. In this case we are interested to see who was a creator for each time when we are reading comments.
+  1. Each post have list of comments. Comment has an field *creator* that refers to owner user. In this case we are interested
+    to see who was a creator for each time when we are reading comments.
   2. We are looking for comments that was created by specific user.
 
 In this case we should check or assume which situation occurs more often. Lets assume that we are more interested that
@@ -102,3 +103,19 @@ In ther other case it would be better to model it like this:
         db.users.update({login:'zdzich'},{ $push: {
           comments: { postId:'some id'}, comment:'Hahaha - ale ubaw!' }})
   
+## How to optimize
+  We can do optimisation on two levels:
+  * model level,
+  * database level.
+  
+### Model level optimisation
+  This kind of optimisation is dependent on the way we will use database. Sometimes optimisation
+  in scalable database such mongo DB mean to denormalize datamodel and duplicate data. For instance
+  in example above if we would like to have comments with full name of creator, we can duplicate
+  user name in comments instead of finding it from relation to users collection. See how the posts
+  can look like in this situation:
+  
+        db.posts.save({title:'Some very nice article', text: 'Very long long text',
+          comments:[
+            {creatorId:'stefan', name : 'Stefan Kowadło', comment:'eeee takie tam...'},
+            {creatorId:'zenon', name : 'Zenon Burak', comment:'Bomba czad bombelki!!!'}]})
