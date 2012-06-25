@@ -14,8 +14,8 @@ All issues explained with examples and in 'hands on' way.
 
 ## Introduction
 * Document oriented database. (json),
-* No transactinos.
-* Sesigned for large scale, high availability and robust systems.
+* No transactinos. Atomic operations on document level.
+* Designed for large scale, high availability and robust systems.
 * Structured as heterogenic collections of documents (schema-less databases).
 
 See more [here](http://www.mongodb.org/display/DOCS/Introduction)
@@ -119,3 +119,18 @@ In ther other case it would be better to model it like this:
           comments:[
             {creatorId:'stefan', name : 'Stefan Kowadło', comment:'eeee takie tam...'},
             {creatorId:'zenon', name : 'Zenon Burak', comment:'Bomba czad bombelki!!!'}]})
+
+### Database level - indexes
+  Indexes works in similar way to RDMS systems. But the best way to find out what indexes we need
+  you should use *explain* method on real queries which you are using in your system.
+  
+  Let's assume that we want to have suggestion box for finding users by Name or it's part.
+  So the query can looks like:
+  
+        db.users.find({$or:[{surname:/.*an.*/i},{forename:/.*an.*/i}]},{surname:1,forename:1}).sort({surname:1})
+  
+  _NOTE:_ case insensitive sort problem - vote [here](https://jira.mongodb.org/browse/SERVER-90)
+  
+  
+  
+  
