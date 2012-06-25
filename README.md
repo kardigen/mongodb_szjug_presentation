@@ -124,13 +124,44 @@ In ther other case it would be better to model it like this:
   Indexes works in similar way to RDMS systems. But the best way to find out what indexes we need
   you should use *explain* method on real queries which you are using in your system.
   
-  Let's assume that we want to have suggestion box for finding users by Name or it's part.
+  Let's assume that we want to implement login view and the query for *stefan* can look like:
+  
+        db.users.find({login:'stefan'})
+  
+  Try to use *explain* method to test query execution.
+  
+        db.users.find({login:'stefan'}).explain()
+
+  You can see that mongo have to scan all db enteries to find appropriate one (nscannedObjects parameter).
+  Let's set index on login and check again.
+  
+        db.users.ensureIndex({login:1})
+
+  As you can see, the scaned enteries droped to 1.
+
+  Now let's assume that we want to have suggestion box for finding users by name or it's part.
   So the query can looks like:
   
         db.users.find({$or:[{surname:/.*an.*/i},{forename:/.*an.*/i}]},{surname:1,forename:1}).sort({surname:1})
   
   _NOTE:_ case insensitive sort problem - vote [here](https://jira.mongodb.org/browse/SERVER-90)
   
+  To find out what indexes we need, use *explain* method:
+  
+        db.users.find({$or:[{surname:/.*an.*/i},{forename:/.*an.*/i}]},{surname:1,forename:1})
+          .sort({surname:1}).explain()
+  
+  Then try to set index on *forename* field and check what happend in explain query again.
+  
+        db.users.ensureIndex({forename:1})
+  
+  You can see that there is no difference. It is because the $or query operator.
+  But what if we add index on *surname* field?
+  
+        db.users.ensureIndex({surname:1})
+  
+  Maybe you will be disaapointed but it looks like worse then without index at all. Simetimes indexes are very tricki.
+  The simple and powerful solution in this particular case is to have another field *fullname* and appropriate index for it!
   
   
   
