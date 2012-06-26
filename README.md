@@ -7,7 +7,7 @@ Szczecin Java User Group Presentation
 * [How to use](#how-to-use)
 * [How to manage relations](#how-to-manage-relations)
 * [How to optimize](#how-to-optimize)
-* How to scale
+* [How to scale](#how-to-scale)
 * How to monitor
 
 All issues explained with examples and in 'hands on' way.
@@ -63,7 +63,7 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
   Useful for creating queues in database - see more [here](http://www.mongodb.org/display/DOCS/findAndModify+Command)
 
 ### Stored procedures
-  There is way to execute some code on server side - very usefull when existaing database evoluting.
+  There is way to execute some code on server side - very useful with existing database evolution.
   Consider that we want to update all users that have old *name* property to new approach with *forename/surname* fields.
   
         function fixName() {
@@ -163,5 +163,31 @@ In ther other case it would be better to model it like this:
   Maybe you will be disaapointed but it looks like worse then without index at all. Simetimes indexes are very tricki.
   The simple and powerful solution in this particular case is to have another field *fullname* and appropriate index for it!
   
-  
-  
+## How to scale
+  *Sharding* is the keyword - see more [here](http://www.mongodb.org/display/DOCS/Sharding)
+
+        mkdir -p db/a db/b db/conf logs
+        mongod --shardsvr --dbpath db/a --port 10000 > logs/shard-a.log &
+        mongod --shardsvr --dbpath db/b --port 10001 > logs/shard-b.log &
+        mongod --configsvr --dbpath db/conf --port 20000 > logs/conf.log &
+        mongos --configdb localhost:20000 --chunkSize 1 > logs/mongos.log &
+
+  Do some db configuration
+
+        mongo
+
+        use admin
+        db.runCommand( { addshard : "localhost:10000" } )
+        db.runCommand( { addshard : "localhost:10001" } )
+        db.runCommand( { enablesharding : "test" } )
+        db.runCommand( { shardcollection : "test.users", key : {login : 1} } )
+
+  Import some bid dataset
+
+        mongoimport --host localhost --db test --collection users --type csv --file test.csv --headerline --upsert
+
+  Login to db admin and check shared status
+        mongo admin
+        db.printShardingStatus()
+
+
