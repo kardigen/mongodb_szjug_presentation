@@ -8,7 +8,6 @@ Szczecin Java User Group Presentation
 * [How to manage relations](#how-to-manage-relations)
 * [How to optimize](#how-to-optimize)
 * [How to scale](#how-to-scale)
-* How to monitor
 
 All issues explained with examples and in 'hands on' way.
 
@@ -53,7 +52,7 @@ See more [here](http://www.mongodb.org/display/DOCS/Introduction)
 
 ### Advanced queries
         db.users.find({name:/^Z.*/})
-        db.users.find({$or:[{name:/^Z.*/},{forname:/^Z.*/}]})
+        db.users.find({$or:[{name:/^Z.*/},{forename:/^Z.*/}]})
         db.users.find({'contacts.email':{$exists:true}})
         db.users.find({'contacts.home.streetNo':{$exists:true},$where:'return this.contacts[1].home.streetNo % 4 == 0'})
 
@@ -187,6 +186,7 @@ In ther other case it would be better to model it like this:
         mongoimport --host localhost --db test --collection users --type csv --file test.csv --headerline --upsert
 
   Login to db admin and check shared status
+  
         mongo admin
         db.printShardingStatus()
 
